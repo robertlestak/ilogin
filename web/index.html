@@ -1,0 +1,21 @@
+<html>
+	<body>
+		<div id="complete">
+			<h1>Login complete. You can now close this window.</h1>
+		</div>
+
+	</body>
+	<script>
+		// make a POST request to localhost:8080 with fetch
+		var fd = new FormData();
+		fd.append('token', "{{.Token}}");
+		fetch('http://localhost:9889', {
+			method: 'POST',
+			body: fd
+		})
+		.then(data => {
+			window.close();
+		})
+		.catch(error => console.error(error))
+	</script>
+</html>

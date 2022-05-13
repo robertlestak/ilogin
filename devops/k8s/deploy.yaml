@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ilogin-v1
+  namespace: default
+  labels:
+    app: ilogin
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ilogin
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: ilogin
+        version: v1
+    spec:
+      containers:
+      - name: ilogin
+        image: docker-registry.example.com/example/ilogin:v0.0.1
+        ports:
+        - containerPort: 80
+          name: http
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
+      imagePullSecrets:
+      - name: regcred

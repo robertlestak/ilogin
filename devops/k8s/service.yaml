@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ilogin
+  namespace: default
+  labels:
+    app: ilogin
+spec:
+  type: ClusterIP
+  selector:
+    app: ilogin
+  ports:
+  - protocol: TCP
+    port: 80
+    name: http
+    targetPort: 80
