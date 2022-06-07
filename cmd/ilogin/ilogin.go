@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/robertlestak/ilogin/pkg/auth"
@@ -113,6 +114,14 @@ func client() {
 		l.Error(err)
 	}
 	if outFile != "" {
+		if strings.HasPrefix(outFile, "~/") {
+			homedir, err := os.UserHomeDir()
+			if err != nil {
+				l.Error(err)
+				os.Exit(1)
+			}
+			outFile = filepath.Join(homedir, outFile[2:])
+		}
 		if err := ioutil.WriteFile(outFile, []byte(token), 0644); err != nil {
 			l.Error(err)
 			os.Exit(1)
